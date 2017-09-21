@@ -19,8 +19,48 @@ void setup() {
 #define HALFSPAN (SPAN / 2)
 //Sporatic Mouse movements
 void sporatic() {
-	int x = random(SPAN) - HALFSPAN;
-	int y = random(SPAN) - HALFSPAN;
+	static enum { RIGHT, DOWN, LEFT, UP, END } state = UP;
+	int x, y;
+
+	switch (state) {
+		case UP:
+			x = 0;
+			y = -1;
+#ifdef DEBUG
+			Serial.println("UP ");
+#endif
+			break;
+
+		case DOWN:
+			x = 0;
+			y = 1;
+#ifdef DEBUG
+			Serial.println("DOWN ");
+#endif
+			break;
+
+		case LEFT:
+			x = -1;
+			y = 0;
+#ifdef DEBUG
+			Serial.println("LEFT ");
+#endif
+			break;
+
+		case RIGHT:
+			x = 1;
+			y = 0;
+#ifdef DEBUG
+			Serial.println("RIGHT ");
+#endif
+			break;
+
+		default:
+#ifdef DEBUG
+			Serial.println("DEFAULT: This shouldn't happen... ");
+#endif
+			x = y = 0;
+	}
 
 #ifdef DEBUG
 	Serial.print("Moving the mouse by (");
@@ -31,6 +71,7 @@ void sporatic() {
 #endif
 
 	Mouse.move(x, y);
+	state = (state + 1) % END;
 }
 
 #define MAX 20
@@ -65,7 +106,7 @@ void LED_Pulse(int maxi) {
 
 
 #define PULSE_DELAY 5000
-#define PULSES_PER_MOUSE_MOVE 12
+#define PULSES_PER_MOUSE_MOVE 11
 void loop() {
 	int i = PULSES_PER_MOUSE_MOVE;
 	for (; i >= 0; --i) {
