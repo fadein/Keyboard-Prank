@@ -1,0 +1,5 @@
+Don't use the arduino program installed with the package manager - it's too old.
+Use ~/Downloads/arduino-1.8.3/arduino instead.
+
+You have to toggle the reset switch right before the compile finishes so that it's in programming
+mode at the right moment.
